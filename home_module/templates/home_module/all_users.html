@@ -1,0 +1,99 @@
+{% extends 'shared/base.html' %}
+
+{% block title %}
+    all users
+{% endblock %}
+{% block body %}
+
+
+    <main>
+
+        <div class="main-wrapper">
+            <div class="profile-banner-large bg-img" data-bg="{{ user.cover_picture.url }}">
+            </div>
+            <div class="profile-menu-area bg-white">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-3 col-md-3">
+                            <div class="profile-picture-box">
+                                <figure class="profile-picture">
+                                    <a href="">
+                                        <img src="{{ user.profile_picture.url }}" alt="profile picture">
+                                    </a>
+                                </figure>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 offset-lg-1">
+                            <div class="profile-menu-wrapper">
+                                <div class="main-menu-inner header-top-navigation">
+                                    <nav>
+
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 order-2 order-lg-1">
+                        <aside class="widget-area profile-sidebar">
+                            <!-- widget single item start -->
+                            <div class="card widget-item">
+                                <h4 class="widget-item">{{ user.first_name }} {{ user.last_name }}</h4>
+                                <h6 class="widget-title">{{ user.username }}</h6>
+                            </div>
+                            <!-- widget single item end -->
+
+
+                        </aside>
+                    </div>
+
+                    <div class="col-lg-6 order-1 order-lg-2">
+                        <!-- share box start -->
+                        <!-- share box end -->
+
+
+                        <!-- post status start -->
+                        {% for following in followings %}
+                            <div class="col-lg-3 col-sm-6 collage request">
+                                <div class="friend-list-view">
+                                    <!-- profile picture end -->
+                                    <div class="profile-thumb">
+                                        <a href="{% url 'profile_page' username=following.username username_loged_in=user_loged_in.username %}">
+                                            <figure class="profile-thumb-middle">
+                                                <img src="{{ following.profile_picture.url }}"
+                                                     alt="profile picture">
+                                            </figure>
+                                        </a>
+                                    </div>
+                                    <!-- profile picture end -->
+
+                                    <div class="posted-author">
+                                        <h6 class="author"><a
+                                                href="{% url 'profile_page' username=following.username username_loged_in=user_loged_in.username %}">{{ following.first_name }} {{ following.last_name }}</a>
+                                        </h6>
+                                        <button class="add-frnd">{{ following.username }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <!-- post status end -->
+
+                    </div>
+
+                    <div class="col-lg-3 order-3">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+{% endblock %}

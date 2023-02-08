@@ -1,0 +1,151 @@
+{% extends 'shared/base.html' %}
+
+{% block title %}
+    edit profile
+{% endblock %}
+{% block body %}
+    <main>
+
+        <div class="main-wrapper">
+            <div class="profile-banner-large bg-img" data-bg="{{ user_loged_in.cover_picture.url }}">
+            </div>
+            <div class="profile-menu-area bg-white">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-3 col-md-3">
+                            <div class="profile-picture-box">
+                                <figure class="profile-picture">
+                                    <a href="">
+                                        <img src="{{ user_loged_in.profile_picture.url }}" alt="profile picture">
+                                    </a>
+                                </figure>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 offset-lg-1">
+                            <div class="profile-menu-wrapper">
+                                <div class="main-menu-inner header-top-navigation">
+                                    <nav>
+
+                                        <ul class="main-menu">
+                                            <li><a href="">پروفایل</a></li>
+                                            <li>
+                                                <a href="{% url 'followings_page' username=user.username username_loged_in=user_loged_in.username %}">دنبال
+                                                    شونده ها</a></li>
+                                            <li>
+                                                <a href="{% url 'followers_page' username=user.username username_loged_in=user_loged_in.username %}">دنبال
+                                                    کننده ها</a>
+                                            </li>
+                                            <!-- <li class="d-inline-block d-md-none"><a href="profile.html">edit profile</a></li> -->
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-3 d-none d-md-block">
+                            <div class="profile-edit-panel">
+                                <a href="" class="edit-btn">
+                                    {% if user_loged_in.username == user.username %}
+                                        ویرایش پروفایل
+
+                                    {% else %}
+                                        فالو / آنفالو
+                                    {% endif %}
+
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br><br><br>
+            <div class="signup-form-wrapper">
+                {% if is_edited %}
+                    <div style="text-align: center;">
+                        <h4 style="background-color: #3fab53;width: 90%;text-align: center;display: inline;margin: auto">
+                            اطلاعات با موفقیت بروزرسانی شد</h4>
+                    </div>
+                {% elif  is_edited is False %}
+                    <div style="text-align: center;">
+                        <h4 style="background-color: #703232;color:white;width: 90%;text-align: center;display: inline;margin: auto">
+                            تغییرات اعمال نشدند</h4>
+                    </div>
+                {% endif %}
+
+                <h1 class="create-acc text-center">ویرایش پروفایل</h1>
+                <div class="signup-inner text-center">
+                    <form class="signup-inner--form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <label for="id_first_name" style="float:right">نام </label>
+                                <input type="text" name="first_name" class="single-field" placeholder="نام"
+                                       maxlength="50"
+                                       required="" value="{{ user_loged_in.first_name }}" id="id_first_name">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_last_name" style="float:right">نام خانوادگی </label>
+                                <input type="text" name="last_name" class="single-field" placeholder="نام خانوادگی"
+                                       maxlength="50" required="" value="{{ user_loged_in.last_name }}"
+                                       id="id_last_name">
+                            </div>
+                            <div class="col-6">
+                                <label for="id_username" style="float:right">نام کاربری</label>
+                                <input type="text" name="username" class="single-field" placeholder="نام کاربری"
+                                       maxlength="50" required="" value="{{ user_loged_in.username }}" id="id_username">
+                            </div>
+                            <div class="col-6">
+                                <label for="id_email" style="float:right">ایمیل</label>
+                                <input type="email" name="email" class="single-field" placeholder="ایمیل" required=""
+                                       value="{{ user_loged_in.email }}" id="id_email">
+                            </div>
+                            <div class="col-6">
+                                <label for="id_password" style="float:right">رمز عبور</label>
+                                <input type="text" name="password" class="single-field" placeholder="رمز عبور"
+                                       maxlength="50" required="" value="{{ user_loged_in.password }}" id="id_password">
+                            </div>
+
+                            <div class="col-6">
+                                <label for="id_location" style="float:right">محل زندگی</label>
+                                <input type="text" name="location" class="single-field" placeholder="محل زندگی"
+                                       required="" maxlength="50" value="{{ user_loged_in.location }}" id="id_location">
+                            </div>
+
+                            <div class="col-12">
+                                <label for="id_email" style="float:right">بیو</label>
+                                <input type="text" name="bio" class="single-field" placeholder="بیو"
+                                       required="" maxlength="50" value="{{ user_loged_in.bio }}" id="id_password">
+                            </div>
+
+                            <div class="col-12">
+                                <label for="id_image" style="float:right">عکس پروفایل</label>
+                                <input type="file" name="image" class="single-field" placeholder="عکس پروفایل"
+                                       id="id_image">
+                            </div>
+                            <div class="col-12">
+                                <label for="id_banner" style="float:right">بنر پروفایل</label>
+                                <input type="file" name="banner" class="single-field" placeholder="بنر پروفایل"
+                                       id="id_banner">
+                            </div>
+                            <div class="col-12">
+                                <label for="id_delete_Account" style="float:right">حذف حساب کاربری</label>
+                                <input type="checkbox" name="delete_account" class="single-field"
+                                       placeholder="حذف حساب کاربری"
+                                       id="id_delete_Account">
+                            </div>
+
+                            <div class="col-12">
+                                <button class="submit-btn">ثبت تغییرات</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+{% endblock %}

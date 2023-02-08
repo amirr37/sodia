@@ -1,0 +1,144 @@
+{% extends 'shared/base.html' %}
+{% block title %}
+    home page
+{% endblock %}
+{% block body %}
+    <body>
+
+    <main>
+
+        <div class="main-wrapper pt-80">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 order-2 order-lg-1">
+                        <aside class="widget-area">
+
+                            <!-- widget single item start -->
+                            <div class="card widget-item">
+                                <h4 class="widget-title">صفحات پیشنهادی</h4>
+                                <div class="widget-body">
+                                    <ul class="like-page-list-wrapper">
+                                        {% for page in suggestion_pages %}
+                                            <li class="unorder-list">
+                                                <!-- profile picture end -->
+                                                <div class="profile-thumb">
+                                                    <a href="{% url 'profile_page' username=page.username username_loged_in=user_loged_in.username %}">
+                                                        <figure class="profile-thumb-small">
+                                                            <img src="{{ page.profile_picture.url }}"
+                                                                 alt="profile picture">
+                                                        </figure>
+                                                    </a>
+                                                </div>
+                                                <!-- profile picture end -->
+
+                                                <div class="unorder-list-info">
+                                                    <h3 class="list-title"><a
+                                                            href="{% url 'profile_page' username=page.username username_loged_in=user_loged_in.username %}">{{ page.first_name }} {{ page.last_name }}</a>
+                                                    </h3>
+                                                    <p class="list-subtitle"><a
+                                                            href="{% url 'profile_page' username=page.username username_loged_in=user_loged_in.username %}">{{ page.username }}</a>
+                                                    </p>
+                                                </div>
+                                                <button class="like-button">
+                                                    <img class="heart" src="/static/assets/images/icons/heart.png"
+                                                         alt="">
+                                                    <img class="heart-color"
+                                                         src="/static/assets/images/icons/heart-color.png"
+                                                         alt="">
+                                                </button>
+                                            </li>
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- widget single item end -->
+
+                        </aside>
+                    </div>
+
+                    <div class="col-lg-6 order-1 order-lg-2">
+                        <!-- share box start -->
+                        <div class="card card-small">
+                            <div class="share-box-inner">
+                                <!-- profile picture end -->
+                                <div class="profile-thumb">
+                                    <a href="#">
+                                        <figure class="profile-thumb-middle">
+                                            <img src="{{ user_loged_in.profile_picture.url }}"
+                                                 alt="profile picture">
+                                        </figure>
+                                    </a>
+                                </div>
+                                <!-- profile picture end -->
+
+                                <!-- share content box start -->
+                                <div class="share-content-box w-100">
+                                    <form class="share-text-box">
+                                    <textarea name="share" class="share-text-field" aria-disabled="true"
+                                              placeholder="یه چیزی بگو :)" data-toggle="modal" data-target="#textbox"
+                                              id="email"></textarea>
+                                        <button class="btn-share" type="submit">پست کردن</button>
+                                    </form>
+                                </div>
+                                <!-- share content box end -->
+
+                                <!-- Modal start -->
+                                <div class="modal fade" id="textbox" aria-labelledby="textbox">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">یه پست جدید بزار بمولا</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form action="" method="post" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <div class="modal-body custom-scroll">
+                                            <textarea name="text" class="share-field-big custom-scroll"
+                                                      placeholder="Say Something"></textarea>
+                                                </div>
+                                                <label for="image"></label>
+                                                <div class="modal-body custom-scroll">
+                                                    <input type="file" name="image" id="image">
+                                                </div>
+                                                <input type="hidden" value="{{ user_loged_in.username }}"
+                                                       name="author_username">
+                                                <input type="hidden" value="{{ user_loged_in.profile_picture.url }}"
+                                                       name="author_profile_picture_address">
+                                                <div class="modal-footer">
+                                                    {#                                                <button type="button" class="post-share-btn" data-dismiss="modal">cancel#}
+                                                    {#                                                </button>#}
+                                                    <button type="submit" class="post-share-btn">post</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal end -->
+                            </div>
+                        </div>
+                        <!-- share box end -->
+                        {% for post in posts %}
+
+                            <!-- post status start -->
+
+                            <!-- post status end -->
+
+                            {% include 'includes/post.html' %}
+                      1  {% endfor %}
+
+
+                    </div>
+
+                    <div class="col-lg-3 order-3">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+{% endblock %}
+
